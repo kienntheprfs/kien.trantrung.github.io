@@ -128,27 +128,80 @@
         var form = '';
         var today = new Date($.now());
 
-        var defaultEvents =  [{
-                title: 'Event Name 4',
-                start: new Date($.now() + 148000000),
-                className: 'bg-purple'
-            },
-            {
-                title: 'Test Event 1',
-                start: today,
-                end: today,
-                className: 'bg-success'
-            },
-            {
-                title: 'Test Event 2',
-                start: new Date($.now() + 168000000),
-                className: 'bg-info'
-            },
-            {
-                title: 'Test Event 3',
-                start: new Date($.now() + 338000000),
-                className: 'bg-primary'
-            }];
+        var defaultEvents =  [
+            // {
+            //     title: 'Event Name 4',
+            //     start: new Date($.now() + 148000000),
+            //     className: 'bg-purple'
+            // },
+            // {
+            //     title: 'Test Event 1',
+            //     start: today,
+            //     end: today,
+            //     className: 'bg-success'
+            // },
+            // {
+            //     title: 'Test Event 2',
+            //     start: new Date($.now() + 168000000),
+            //     className: 'bg-info'
+            // },
+            // {
+            //     title: 'Test Event 3',
+            //     start: new Date($.now() + 338000000),
+            //     className: 'bg-primary'
+            // }
+        ];
+        
+
+            function repeat(courseDetails) {
+                if (courseDetails.courseName.length >= 24) {
+                    for (var i = 0; i < courseDetails.courseName.length; ++i) {
+                        if (courseDetails.courseName[i] == ' ' && i >= 24) {
+                            courseDetails.courseName = courseDetails.courseName.slice(0, i) + '\n' + courseDetails.courseName.slice(i + 1);
+                            break;
+                        }
+                    }
+                }
+                var colors = ['purple', 'primary', 'success', 'info', 'warning', 'danger', 'dark'];
+                for (let i = 0; i < courseDetails.numberofMonths*4; ++i) {
+                    var date = new Date(
+                        courseDetails.year, 
+                        courseDetails.month - 1, 
+                        courseDetails.day 
+                        // courseDetails.start
+                    );
+                    date.setTime(date.getTime() + 86400 * 7 * i * 1000);
+              
+                    defaultEvents.push({
+                        title: courseDetails.start + courseDetails.format + ' - ' 
+                        + courseDetails.end + courseDetails.format + '\n ' + courseDetails.courseName,
+                        start: date,
+                        className: 'bg-' + colors[Math.floor(Math.random() * colors.length) % colors.length],
+                    });
+                }
+
+
+                // defaultEvents.push({
+                //     title: 'Event 1',
+                //     start: '2024-05-02T01:00:00',
+                //     end: '2024-05-02T11:00:00'
+                //   })
+              }
+            var courseDetails = {
+                courseName: 'Principle of Programming Language',
+                year: 2024,
+                month: 4,
+                day: 1,
+                start: '6:00',
+                end: '8:50',
+                format: 'am',
+                numberofMonths: 4
+            }
+            repeat(courseDetails);
+            repeat(courseDetails);
+            repeat(courseDetails);
+
+
 
         var $this = this;
         $this.$calendarObj = $this.$calendar.fullCalendar({

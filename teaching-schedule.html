@@ -1721,10 +1721,25 @@
     <script src="assets/js/script.js" type="text/javascript"></script>
 
     <script>
+      var promise = Promise.resolve();
+      promise
+      .then(function() {
         const collection = document.getElementsByClassName("fc-toolbar fc-header-toolbar");
         collection[1].innerHTML = "";
+      })
+      .then(function() {
         const collection2 = document.getElementsByClassName("fc-view-container");
         collection2[1].innerHTML = "";
+      })
+      .then(function() {
+        const buttonMonthWeekDay = document.getElementsByClassName("fc-right");
+        if (buttonMonthWeekDay[0]) {
+          buttonMonthWeekDay[0].innerHTML = "";
+        }
+      })
+      
+      
+      
     </script>
     <div class="sidebar-overlay"></div>
   </body>
