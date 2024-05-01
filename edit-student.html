@@ -1275,9 +1275,9 @@
                           </label>
                           <select class="form-control select">
                             <!-- <option>Select Gender</option> -->
+                            <option>Others</option>
                             <option>Female</option>
                             <option>Male</option>
-                            <option>Others</option>
                           </select>
                         </div>
                       </div>
@@ -1322,7 +1322,7 @@
                         <div class="form-group local-forms">
                           <label>Personal E-Mail <span class="login-danger">*</span>
                           </label>
-                          <input class="form-control" type="text" value="t.trungkien1809@gmail.com">
+                          <input class="form-control" type="email" value="t.trungkien1809@gmail.com">
                         </div>
                       </div>
                       <!-- <div class="col-12 col-sm-4">
@@ -1342,24 +1342,25 @@
                           <!-- <label>E-Mail <span class="login-danger">*</span> -->
                           <label>Date of Birth<span class="login-danger">*</span>
                           </label>
-                          <input class="form-control" type="text" value="18/09/2004">
+                          <input class="form-control" id="date" type="text" value="18/09/2004">
+                          <!-- <input type="text" id="date" class="form-control"> -->
                         </div>
                       </div>
-                      <div class="col-12 col-sm-4">
-                        <div class="form-group local-forms">
-                          <!-- <label>E-Mail <span class="login-danger">*</span> -->
-                          <label>Address<span class="login-danger">*</span>
-                          </label>
-                          <input class="form-control" type="text" value="96, Đường Cầu Đình, Phường Long Phước, Quận 9, Thành phố Hồ Chí Minh">
-                        </div>
-                      </div>
+                      
                       <div class="col-12 col-sm-4">
                         <div class="form-group local-forms">
                           <label>Guardian contact number<span class="login-danger">*</span>
                           </label>
-                          <input class="form-control" type="text" value="0123456789">
+                          <input class="form-control" id="guardian-phone" type="text" value="0123456789">
                         </div>
                       </div>
+                      <div class="col-12 col-sm-4">
+                        <div class="form-group local-forms">
+                          <label>Guardian' full name<span class="login-danger">*</span>
+                          </label>
+                          <input class="form-control" type="text" value="Trần Trung Dũng">
+                        </div>
+                      </div> 
                       <div class="col-12 col-sm-4">
                         <div class="form-group local-forms">
                           <label>Language<span class="login-danger">*</span>
@@ -1410,8 +1411,9 @@
                       </div> -->
                       <div class="col-12 col-sm-4">
                         <div class="form-group local-forms">
-                          <label>Student phone number</label>
-                          <input class="form-control" type="text" value="0909213496">
+                          <label>Student phone number<span class="login-danger">*</span>
+                          </label>
+                          <input class="form-control" id="phone" type="text" value="0909213496">
                         </div>
                       </div>
                       <!-- <div class="col-12 col-sm-4">
@@ -1423,6 +1425,39 @@
                           </div>
                         </div>
                       </div> -->
+
+
+                      <div class="col-12 col-sm-4">
+                        <div class="form-group local-forms">
+                          <label>Social insurance number<span class="login-danger">*</span>
+                          </label>
+                          <input class="form-control" id="bhxh-1" type="text" value="7929471750">
+                        </div>
+                      </div>   
+                      <div class="col-12 col-sm-4">
+                        <div class="form-group local-forms">
+                          <label>Record ID<span class="login-danger">*</span>
+                          </label>
+                          <input class="form-control" id="bhxh-2" type="text" value="2022/4306">
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-4">
+                        <div class="form-group local-forms">
+                          <label>Personal accident insurance number<span class="login-danger">*</span>
+                          </label>
+                          <input class="form-control" id="bhxh-3" type="text" value="B102301603000008-C802">
+                        </div>
+                      </div>
+
+
+                      <div class="col-12 col-sm-12">
+                        <div class="form-group local-forms">
+                          <!-- <label>E-Mail <span class="login-danger">*</span> -->
+                          <label>Address<span class="login-danger">*</span>
+                          </label>
+                          <input class="form-control" type="text" value="96, Đường Cầu Đình, Phường Long Phước, Quận 9, Thành phố Hồ Chí Minh">
+                        </div>
+                      </div>
                       <div class="col-12">
                         <div class="student-submit">
                           <button type="submit" class="btn btn-primary">Submit</button>
@@ -1444,6 +1479,8 @@
     <script src="assets/plugins/select2/js/select2.min.js" type="text/javascript"></script>
     <script src="assets/plugins/moment/moment.min.js" type="text/javascript"></script>
     <script src="assets/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="assets/js/jquery.maskedinput.min.js"></script>
+    <script src="assets/js/mask.js"></script>
     <script src="assets/js/script.js" type="text/javascript"></script>
     <div class="sidebar-overlay"></div>
   </body>
