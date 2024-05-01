@@ -9,6 +9,8 @@ class BasicUserInfo {
     this.dateOfBirth = dateOfBirth;
     this.address = address;
     }
+    showPersonalInfo() {
+    }
 
     getStudentInfo() {
     return `Name: ${this.name}, Age: ${this.age}, Grade: ${this.grade}`;
@@ -20,6 +22,9 @@ class BasicUserInfo {
 
     takeExam() {
     console.log(`${this.name} is taking an exam.`);
+    }
+    login() {
+    console.log(`${this.name} is logging in.`);
     }
 }
 
@@ -63,17 +68,40 @@ class Instructor extends BasicUserInfo {
         this.teachingSubject = teachingSubject;
         this.studentList = studentList;
         this.teacherSchedule;
+        
     }
+    showTeachingCourse() {
+        // console.log(`${this.name} is teaching ${this.teachingSubject}`);
+        
+    }
+    viewStudentList() {
+        // console.log(`${this.name} is viewing the student list.`);
+
+    }
+    viewStudentList() {
+        // console.log(`${this.name} is viewing the student list.`);
+
+
+    }
+    gradeStudent() {
+        // console.log(`${this.name} is grading the student.`);
+
+    }
+    ediCourseResource() {
+        // console.log(`${this.name} is editing the course resource.`);
+
+    }
+
+
+
 }
-class Course {
-    #courseProgress;
-    constructor(startTime, endTime, courseResource, grade) {
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.courseResource = courseResource;
-        this.grade = grade;
+class Administrator extends BasicUserInfo {
+    constructor(userID, name) {
+
     }
+
+
 
 }
 
-export {Student, BasicUserInfo, Instructor, Course};
+export {Student, BasicUserInfo, Instructor};

@@ -455,6 +455,8 @@
     <link rel="stylesheet" href="assets/css/style.css">
   </head>
   <body>
+
+    
     <div class="main-wrapper">
       <div class="header">
         <div class="header-left">
@@ -1207,6 +1209,15 @@
           <div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
         </div>
       </div>
+      <div id="target"></div>
+    </div>
+
+
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script type="text/x-handlebars-template" id="template">
       <div class="page-wrapper" style="min-height: 730px;">
         <div class="content container-fluid">
           <div class="page-header">
@@ -1294,70 +1305,72 @@
                         <div class="heading-detail">
                           <h4>Personal Details :</h4>
                         </div>
-                        <div class="personal-activity">
-                          <div class="personal-icons">
-                            <i class="feather-user"></i>
+                        {{#each personal_data}}
+                          <div class="personal-activity">
+                            <div class="personal-icons">
+                              <i class="feather-user"></i>
+                            </div>
+                            <div class="views-personal">
+                              <h4>Name</h4>
+                              <h5> {{name}} </h5>
+                            </div>
                           </div>
-                          <div class="views-personal">
-                            <h4>Name</h4>
-                            <h5>Trần Trung Kiên</h5>
+                          <!-- <div class="personal-activity"><div class="personal-icons"><img src="assets/img/icons/buliding-icon.svg" alt=""></div><div class="views-personal"><h4>Department </h4><h5>Computer Science</h5></div></div> -->
+                          <div class="personal-activity">
+                            <div class="personal-icons">
+                              <i class="feather-phone-call"></i>
+                            </div>
+                            <div class="views-personal">
+                              <h4>Mobile</h4>
+                              <h5> {{mobile}} </h5>
+                            </div>
                           </div>
-                        </div>
-                        <!-- <div class="personal-activity"><div class="personal-icons"><img src="assets/img/icons/buliding-icon.svg" alt=""></div><div class="views-personal"><h4>Department </h4><h5>Computer Science</h5></div></div> -->
-                        <div class="personal-activity">
-                          <div class="personal-icons">
-                            <i class="feather-phone-call"></i>
+                          <div class="personal-activity">
+                            <div class="personal-icons">
+                              <i class="feather-mail"></i>
+                            </div>
+                            <div class="views-personal">
+                              <h4>Personal email</h4>
+                              <h5> {{personal_email}} </h5>
+                            </div>
                           </div>
-                          <div class="views-personal">
-                            <h4>Mobile</h4>
-                            <h5>0909213496</h5>
+                          <div class="personal-activity">
+                            <div class="personal-icons">
+                              <i class="feather-user"></i>
+                            </div>
+                            <div class="views-personal">
+                              <h4>Gender</h4>
+                              <h5> {{gender}} </h5>
+                            </div>
                           </div>
-                        </div>
-                        <div class="personal-activity">
-                          <div class="personal-icons">
-                            <i class="feather-mail"></i>
+                          <div class="personal-activity">
+                            <div class="personal-icons">
+                              <i class="feather-calendar"></i>
+                            </div>
+                            <div class="views-personal">
+                              <h4>Date of Birth</h4>
+                              <h5> {{date_of_birth}} </h5>
+                            </div>
                           </div>
-                          <div class="views-personal">
-                            <h4>Personal email</h4>
-                            <h5>t.trungkien1809@gmail.com</h5>
+                          <div class="personal-activity">
+                            <div class="personal-icons">
+                              <i class="feather-italic"></i>
+                            </div>
+                            <div class="views-personal">
+                              <h4>Language</h4>
+                              <h5> {{language}} </h5>
+                            </div>
                           </div>
-                        </div>
-                        <div class="personal-activity">
-                          <div class="personal-icons">
-                            <i class="feather-user"></i>
+                          <div class="personal-activity mb-0">
+                            <div class="personal-icons">
+                              <i class="feather-map-pin"></i>
+                            </div>
+                            <div class="views-personal">
+                              <h4>Address</h4>
+                              <h5> {{address}} </h5>
+                            </div>
                           </div>
-                          <div class="views-personal">
-                            <h4>Gender</h4>
-                            <h5>Male</h5>
-                          </div>
-                        </div>
-                        <div class="personal-activity">
-                          <div class="personal-icons">
-                            <i class="feather-calendar"></i>
-                          </div>
-                          <div class="views-personal">
-                            <h4>Date of Birth</h4>
-                            <h5>18/09/2004</h5>
-                          </div>
-                        </div>
-                        <div class="personal-activity">
-                          <div class="personal-icons">
-                            <i class="feather-italic"></i>
-                          </div>
-                          <div class="views-personal">
-                            <h4>Language</h4>
-                            <h5>Vietnamese, English, Japanese</h5>
-                          </div>
-                        </div>
-                        <div class="personal-activity mb-0">
-                          <div class="personal-icons">
-                            <i class="feather-map-pin"></i>
-                          </div>
-                          <div class="views-personal">
-                            <h4>Address</h4>
-                            <h5>96, Đường Cầu Đình, Phường Long Phước, Quận 9, Thành phố Hồ Chí Minh</h5>
-                          </div>
-                        </div>
+                        {{/each}}
                       </div>
                     </div>
                   </div>
@@ -1365,36 +1378,22 @@
                     <div class="card mb-0">
                       <div class="card-body">
                         <div class="heading-detail">
-                          <h4>Skills:</h4>
+                          <h4>Certificate:</h4>
                         </div>
                         <div class="skill-blk">
-                          <div class="skill-statistics">
-                            <div class="skills-head">
-                              <h5>Photoshop</h5>
-                              <p>90%</p>
+                          {{#each certificate_data}}
+                            <!-- <div class="skill-statistics"><div class="skills-head"><h5>Photoshop</h5><p>90%</p></div><div class="progress mb-0"><div class="progress-bar bg-photoshop" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div></div></div><div class="skill-statistics"><div class="skills-head"><h5>Code editor</h5><p>75%</p></div><div class="progress mb-0"><div class="progress-bar bg-editor" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div></div></div> -->
+                            <div class="skill-statistics mb-0">
+                              <div class="skills-head">
+                                <h5> {{@key}} </h5>
+                                <p> {{this.got}} </p>
+                              </div>
+                              <div class="progress mb-0">
+                                <div class="progress-bar bg-photoshop" role="progressbar" style="width: {{this.percentage}}%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
                             </div>
-                            <div class="progress mb-0">
-                              <div class="progress-bar bg-photoshop" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </div>
-                          <div class="skill-statistics">
-                            <div class="skills-head">
-                              <h5>Code editor</h5>
-                              <p>75%</p>
-                            </div>
-                            <div class="progress mb-0">
-                              <div class="progress-bar bg-editor" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </div>
-                          <div class="skill-statistics mb-0">
-                            <div class="skills-head">
-                              <h5>Illustrator</h5>
-                              <p>95%</p>
-                            </div>
-                            <div class="progress mb-0">
-                              <div class="progress-bar bg-illustrator" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </div>
+                            <br>
+                          {{/each}}
                         </div>
                       </div>
                     </div>
@@ -1405,57 +1404,56 @@
                     <div class="card mb-0">
                       <div class="card-body">
                         <!-- <div class="heading-detail"><h4>About Me</h4></div><div class="hello-park"><h5>Hello I am Daisy Parks</h5><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur officia deserunt mollit anim id est laborum.</p><p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p></div><div class="hello-park"><h5>Education</h5><div class="educate-year"><h6>2008 - 2009</h6><p>Secondary Schooling at xyz school of secondary education, Mumbai.</p></div><div class="educate-year"><h6>2011 - 2012</h6><p>Higher Secondary Schooling at xyz school of higher secondary education, Mumbai.</p></div><div class="educate-year"><h6>2012 - 2015</h6><p>Bachelor of Science at Abc College of Art and Science, Chennai.</p></div><div class="educate-year"><h6>2015 - 2017</h6><p class="mb-0">Master of Science at Cdm College of Engineering and Technology, Pune.</p></div></div> -->
-                        <div class="heading-detail">
-                          <h4>Academic Information</h4>
-                          <div style="font-size: 17px;">
-                            <span style="font-weight: bold;">Status:</span>
-                            <span class="badge bg-primary" style="position: relative; bottom: 1.5px">Learning</span>
+                        {{#each student_data}}
+                          <div class="heading-detail">
+                            <h4>Academic Information</h4>
+                            <div style="font-size: 17px;">
+                              <span style="font-weight: bold;">Status:</span>
+                              <span class="badge bg-primary" style="position: relative; bottom: 1.5px">{{status}}</span>
+                            </div>
+                            <div style="font-size: 17px;">
+                              <span style="font-weight: bold;">Student ID:</span>
+                              <span> {{student_id}} </span>
+                            </div>
+                            <div style="font-size: 17px;">
+                              <span style="font-weight: bold;">School email:</span>
+                              <span> {{school_email}} </span>
+                            </div>
+                            <div style="font-size: 17px;">
+                              <span style="font-weight: bold;">Faculty:</span>
+                              <span>Computer Science and Enginnering</span>
+                            </div>
+                            <div style="font-size: 17px;">
+                              <span style="font-weight: bold;">Class:</span>
+                              <span> {{class}} </span>
+                            </div>
+                            <div style="font-size: 17px;">
+                              <span style="font-weight: bold;">Homeroom teacher:</span>
+                              <span> {{homeroom_teacher}} </span>
+                            </div>
+                            <div style="font-size: 17px;">
+                              <span style="font-weight: bold;">Admission time:</span>
+                              <span> {{admission_time}} </span>
+                            </div>
+                            <div style="font-size: 17px;">
+                              <span style="font-weight: bold;">Maximum training time:</span>
+                              <span> {{maximum_training_time}} </span>
+                            </div>
+                            <!-- <div style="font-size: 17px;"><span style="font-weight: bold;">Homeroom teacher:</span><span>Lê Hồng Trang</span></div> -->
+                            <div style="font-size: 17px;">
+                              <span style="font-weight: bold;">Management Agency:</span>
+                              <span> {{management_agency}} </span>
+                            </div>
+                            <div style="font-size: 17px;">
+                              <span style="font-weight: bold;">Major:</span>
+                              <span> {{major}} </span>
+                            </div>
+                            <div style="font-size: 17px;">
+                              <span style="font-weight: bold;">Education level:</span>
+                              <span> {{education_level}} </span>
+                            </div>
                           </div>
-                          <div style="font-size: 17px;">
-                            <span style="font-weight: bold;">Student ID:</span>
-                            <span>2252397</span>
-                          </div>
-                          <div style="font-size: 17px;">
-                            <span style="font-weight: bold;">School email:</span>
-                            <span>kien.trantrung@hcmut.edu.vn</span>
-                          </div>
-                          <div style="font-size: 17px;">
-                            <span style="font-weight: bold;">Faculty:</span>
-                            <span>Computer Science and Enginnering</span>
-                          </div>
-                          <div style="font-size: 17px;">
-                            <span style="font-weight: bold;">Class:</span>
-                            <span>CN22KHM1</span>
-                          </div>
-                          <div style="font-size: 17px;">
-                            <span style="font-weight: bold;">Homeroom teacher:</span>
-                            <span>Lê Hồng Trang</span>
-                          </div>
-                          <div style="font-size: 17px;">
-                            <span style="font-weight: bold;">Admission time:</span>
-                            <span>10/2022</span>
-                          </div>
-                          <div style="font-size: 17px;">
-                            <span style="font-weight: bold;">Maximum training time:</span>
-                            <span>10/2028</span>
-                          </div>
-                          <div style="font-size: 17px;">
-                            <span style="font-weight: bold;">Homeroom teacher:</span>
-                            <span>Lê Hồng Trang</span>
-                          </div>
-                          <div style="font-size: 17px;">
-                            <span style="font-weight: bold;">Management Agency:</span>
-                            <span>Office for International Study Programs (OISP)</span>
-                          </div>
-                          <div style="font-size: 17px;">
-                            <span style="font-weight: bold;">Major:</span>
-                            <span>Khoa học Máy tính - CT CLC tăng cường tiếng Nhật</span>
-                          </div>
-                          <div style="font-size: 17px;">
-                            <span style="font-weight: bold;">Education level:</span>
-                            <span>University</span>
-                          </div>
-                        </div>
+                        {{/each}}
                       </div>
                     </div>
                   </div>
@@ -1475,7 +1473,7 @@
                           <h5 class="small-header">Student's current whereabouts</h5>
                           <div style="font-size: 17px;">
                             <span style="font-weight: bold;">Address:</span>
-                            <span>96, Đường Cầu Đình, Phường Long Phước, Quận 9, Thành phố Hồ Chí Minh</span>
+                            <span> {{address}} </span>
                           </div>
                           <div style="font-size: 17px;">
                             <span style="font-weight: bold;">Contact number:</span>
@@ -1526,11 +1524,24 @@
                 </footer>
               </div>
             </div>
-            <script src="assets/js/jquery-3.7.1.min.js" type="text/javascript"></script>
-            <script src="assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-            <script src="assets/js/feather.min.js" type="text/javascript"></script>
-            <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-            <script src="assets/js/script.js" type="text/javascript"></script>
-            <div class="sidebar-overlay"></div>
+          </div>
+        </div>
+      </div>
+    </script>
+
+
+
+
+
+
+    <script src="assets/js/jquery-3.7.1.min.js" type="text/javascript"></script>
+    <script src="assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <script src="assets/js/feather.min.js" type="text/javascript"></script>
+    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="assets/js/script.js" type="text/javascript"></script>
+
+    <script type="module" src="js/main/main.js"></script>
+
+    <div class="sidebar-overlay"></div>
   </body>
 </html>
