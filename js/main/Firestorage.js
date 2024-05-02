@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
 import { getStorage, getDownloadURL , ref, uploadBytesResumable, uploadBytes, deleteObject } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js";
+import { FirebaseController } from "./Firebase.js";
 
 
 
@@ -51,40 +52,23 @@ $('#take-file').on('change', function(event) {
 }
 
 
-function downloadFile() {
-  var fileName = "NỘI-DUNG-CHUẨN-BỊ-THI-HỘI-THOẠI-CUỐI-KỲ.pdf"
-  const starsRef = ref(storage, 'myFolder/' + fileName);
+function downloadFile(fileName) {
+  return new Promise((resolve, reject) => {
+    const starsRef = ref(storage, 'myFolder/' + fileName);
 
-  // Get the download URL
-  getDownloadURL(starsRef)
-    .then((url) => {
-      // Insert url into an <img> tag to "download"
-      console.log("File url available at: " + url);
-    })
-    .catch((error) => {
-      // A full list of error codes is available at
-      // https://firebase.google.com/docs/storage/web/handle-errors
-      switch (error.code) {
-        case 'storage/object-not-found':
-          // File doesn't exist
-          console.log("File doesn't exist");
-          break;
-        case 'storage/unauthorized':
-          // User doesn't have permission to access the object
-          console.log("User doesn't have permission to access the object");
-          break;
-        case 'storage/canceled':
-          // User canceled the upload
-          console.log("User canceled the upload");
-          break;
-
-        // ...
-
-        case 'storage/unknown':
-          // Unknown error occurred, inspect the server response
-          break;
-      }
-    });
+    // Get the download URL
+    getDownloadURL(starsRef)
+      .then((url) => {
+        // Insert url into an <img> tag to "download"
+        console.log("File url available at: " + url + "\n");
+        resolve(url); // Resolve the Promise with the download URL
+      })
+      .catch((error) => {
+        // Handle any errors and reject the Promise
+        console.error("Error downloading file:", error);
+        reject(error);
+      });
+  });
 }
 function deleteFile() {
   var fileName = "NỘI-DUNG-CHUẨN-BỊ-THI-HỘI-THOẠI-CUỐI-KỲ.pdf"
@@ -98,9 +82,46 @@ function deleteFile() {
     console.log("Uh-oh, an error occurred, cannot delete file!");
   });
 }
-uploadFile();
-downloadFile();
-deleteFile() 
+
+
+
+
+
+function downloadMultipleFiles(data) {
+  var fbController = new FirebaseController();
+    fbController.getData("/course/CO2007/course_content/files")
+    .then((files) => {
+      // console.log("Files to download: ", files, files.length);
+
+      const promises = [];
+
+      for (let i = 0; i < files.length; i++) {
+        promises.push(Promise.resolve(downloadFile(files[i])));
+      }
+
+      Promise.all(promises) 
+        .then(values => {
+          console.log(values); 
+          for (let i = 0; i < values.length; i++) {
+            fbController.updateData("/course/CO2007/course_content/", {links: values});
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    })
+      .catch((error) => {
+        reject(error);
+      });
+
+}
+
+
+
+downloadMultipleFiles()
+// uploadFile();
+// downloadFile();
+// deleteFile() 
 
 export { uploadFile, downloadFile, deleteFile };
 
