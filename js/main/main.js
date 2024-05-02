@@ -1,4 +1,5 @@
 import { getData, setData, updateData, removeData, initFirebase} from './Firebase.js'
+import { uploadFile, downloadFile } from './Firestorage.js'
 // import {BasicUserInfo, Student, Instructor} from "./user_info.js";
 class Model {
     constructor(){
@@ -135,6 +136,25 @@ class View {
       var html = template(context);
       $("#target").html(html);
     }
+    loadStudentCourseView(data) {
+      var source = $("#template").html();
+      var template = Handlebars.compile(source);
+
+      var context = data.registered_courses;
+
+      var html = template(context);
+      $("#target").html(html);
+
+    }
+    loadEditTeachingCourse(data) {
+      var source = $("#template").html();
+      var template = Handlebars.compile(source);
+
+      var context = data.teaching_courses;
+
+      var html = template(context);
+      $("#target").html(html);
+    }
 
 }
 
@@ -188,6 +208,12 @@ class Controller {
           }  
           else if (filename == 'student-details.html') {
             this.view.loadStudentView(data);
+          }
+          else if (filename == 'student-course.html') {
+            this.view.loadStudentCourseView(data);
+          }
+          else if (filename == 'edit-teaching-course.html') {
+            this.view.loadEditTeachingCourse(data);
           }
 
         })
