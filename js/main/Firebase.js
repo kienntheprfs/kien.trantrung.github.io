@@ -30,7 +30,7 @@ function initFirebase() {
 function setData(path, object_data) {
     set(ref(db, path), object_data)
     .then(() => {
-        alert("data added succesfully");
+        // alert("data set succesfully");
     }).catch(() => {
         alert("Unsuccesful");
         console.log(error);
@@ -125,7 +125,7 @@ class FirebaseController {
     setData(path, object_data) {
         set(ref(this.db, path), object_data)
         .then(() => {
-            alert("data added succesfully");
+            // alert("data set succesfully");
         }).catch(() => {
             alert("Unsuccesful");
             console.log(error);

@@ -21,7 +21,7 @@ class Model {
       return new Promise((resolve, reject) => {
         getData("course/" + course_id)
         .then((data) => {
-          console.log("couse data: ", data)
+        //   console.log("couse data: ", data)
           resolve(data);
         })
         .catch((error) => {
@@ -29,6 +29,32 @@ class Model {
         });
     });
     }
+    setTempData(data) {
+        return new Promise((resolve, reject) => {
+            setData("temp_data/", data)
+            // .then(() => {
+            //     resolve();
+            // })
+            // .catch((error) => {
+            //     reject(error);
+            // });
+        });
+    }
+
+    getTempData() {
+        return new Promise((resolve, reject) => {
+            getData("temp_data/")
+            .then((data) => {
+                resolve(data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+        });
+    }
+
+
+
     setCurrentUser(login_type, username) {
       return new Promise((resolve, reject) => {
         setData("current_user/", {login_type: login_type, user_name: username})
@@ -180,15 +206,54 @@ class View {
       var html = template(context);
       $("#target").html(html);
     }
-    loadStudentCourseView(data) {
+    loadStudentCourse(data, handler) {
       var source = $("#template").html();
       var template = Handlebars.compile(source);
 
       var context = data;
-      console.log(context)
+    //   console.log(context)
 
       var html = template({courses: context});
       $("#target").html(html);
+
+
+    
+
+    // Select the parent element
+    var parentElement = document.getElementById('parentList');
+
+    // Get all child elements
+    var childElements = parentElement.children;
+
+    // Create an array to store the child element IDs
+    var course_IDs = [];
+    // Iterate through the child elements and get their IDs
+    for (var i = 0; i < childElements.length; i++) {
+    var childId = childElements[i].id;
+    // console.log('Child ID:', childId);
+        course_IDs.push(childId)
+    }
+
+    
+    document.addEventListener('click', function(e) {
+        for (var i = 0; i < course_IDs.length; i++) {
+            if (e.target && e.target.id === course_IDs[i]) {
+                // var model = new Model()
+                // var res = model.getCourseData(e.target.id)
+                // res.then((data) => {
+                //     console.log(data)
+                // })
+                handler(e.target.id)
+            }
+        }
+    })
+    
+    
+
+
+
+
+
 
     }
     loadEditTeachingCourse(data) {
@@ -196,15 +261,6 @@ class View {
       var template = Handlebars.compile(source);
 
       var context = data.teaching_courses;
-
-      var html = template(context);
-      $("#target").html(html);
-    }
-    loadStudentCourse(data) {
-      var source = $("#template").html();
-      var template = Handlebars.compile(source);
-
-      var context = data;
 
       var html = template(context);
       $("#target").html(html);
@@ -243,11 +299,15 @@ class View {
         var html = template({links: arr});
         $("#target").html(html);
       // })
-
-
-
-
+    
     }
+
+    bindStudentCourse(handler) {
+        // alert("bindStudentCourse not implemented yet")
+        this.StudentCourseCallback = handler
+    }
+
+
     
 
 
@@ -344,7 +404,7 @@ class Controller {
               var course_IDs = Object.keys(registered_courses) 
               
               // console.log(course_IDs)
-              console.log(registered_courses)
+            //   console.log(registered_courses)
 
 
               const promises = [];
@@ -354,12 +414,12 @@ class Controller {
         
               Promise.all(promises)
               .then(data => {
-                console.log(data);
+                // console.log(data);
                 // this.model.getCourseData("CO2007")
                 // .then((data) => {
                   var course_INFOs = data.map((course) => course.course_info )
-                  console.log(course_INFOs)
-                  this.view.loadStudentCourseView(course_INFOs);
+                //   console.log(course_INFOs)
+                  this.view.loadStudentCourse(course_INFOs, this.handleStudentCourse);
                 // })
 
             })
@@ -372,11 +432,18 @@ class Controller {
             }
             else if (filename == 'course-details.html') {
               // alert("Course details")
-              var courseId = "CO2007"
-              this.model.getCourseData(courseId)
-              .then((data) => {
-                this.view.loadCourseDetails(data.course_content);
+              var courseId = this.model.getTempData("course_id");
+              
+              this.model.getTempData("course_id").then((data) => {
+                console.log(data)
+                return data.course_id
+                })
+                .then((courseId) => {
+                this.model.getCourseData(courseId)
+                .then((data) => {
+                    this.view.loadCourseDetails(data.course_content);
               })
+            })
               
             }
             else if (filename == "teacher-add-resources.html") {
@@ -404,6 +471,9 @@ class Controller {
           })
           .then(() => {
             this.view.bindLogout(this.handleLogout)
+          })
+          .then(() => {
+            this.view.bindStudentCourse(this.handleStudentCourse)
           })
         })
 
@@ -572,6 +642,32 @@ class Controller {
     }
     handleTeachingSchedule() {
         // console.log("Student schedule");
+    }
+    handleStudentCourse = (course_id) => {
+        // console.log("Student course");
+        // var model = new Model()
+        // model.getCourseData("CO2009").
+        // then((data) => {
+        //   console.log(data)
+        // })
+
+        var model = new Model()
+        var res = model.getCourseData(course_id)
+        var handleCourseDetails = this.handleCourseDetails
+        res.then((data) => {
+            // console.log(data)
+            handleCourseDetails(data)
+            
+        })
+
+    }
+    handleCourseDetails = (data) => {
+        // console.log("Course details");
+        this.model.setTempData({course_id: data.course_info.course_id})
+        // .then(() => {
+            window.location.href = "course-details.html"
+        // })
+        
     }
   }
 
