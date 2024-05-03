@@ -619,49 +619,55 @@
           <div class="sidebar-inner slimscroll" style="overflow: hidden; width: 100%; height: 215px;">
             <div id="sidebar-menu" class="sidebar-menu">
               <ul>
-                <li class="menu-title">
-                  <span>Main Menu</span>
-                </li>
-                <li class="submenu">
+                <!-- <li class="submenu">
                   <a href="#">
                     <i class="feather-grid"></i>
                     <span> Dashboard</span>
                     <span class="menu-arrow"></span>
                   </a>
                   <ul>
-                    <li>
-                      <a href="index.html">Admin Dashboard</a>
-                    </li>
-                    <li>
-                      <a href="teacher-dashboard.html">Teacher Dashboard</a>
-                    </li>
+                    <li><a href="index.html">Admin Dashboard</a></li><li><a href="teacher-dashboard.html">Teacher Dashboard</a></li>
                     <li>
                       <a href="student-dashboard.html">Student Dashboard</a>
                     </li>
                   </ul>
-                </li>
+                </li> -->
                 <li class="submenu">
-                  <a href="#">
+                  <a href="#" class="active subdrop">
                     <i class="fas fa-graduation-cap"></i>
                     <span> Students</span>
                     <span class="menu-arrow"></span>
                   </a>
-                  <ul>
+                  <ul style="display: block;">
+                    <!-- <li><a href="students.html">Student List</a></li> -->
                     <li>
-                      <a href="students.html">Student List</a>
+                      <a href="student-details.html">My Information</a>
                     </li>
+                    <!-- <li><a href="students.html">Student List</a></li> -->
                     <li>
-                      <a href="student-details.html">Student View</a>
-                    </li>
-                    <li>
-                      <a href="add-student.html">Student Add</a>
-                    </li>
-                    <li>
-                      <a href="edit-student.html">Student Edit</a>
+                      <a href="edit-student.html">Edit My Information</a>
                     </li>
                   </ul>
                 </li>
-                <li class="submenu">
+                <li class="submenu active">
+                  <a href="#">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span> Courses</span>
+                    <span class="menu-arrow"></span>
+                  </a>
+                  <ul>
+                    <li>
+                      <a href="student-course.html" class="active">My Courses</a>
+                    </li>
+                    <li>
+                      <a href="course-progress.html">Course Progress</a>
+                    </li>
+                    <li>
+                      <a href="register-new-course.html">Register New Course</a>
+                    </li>
+                  </ul>
+                </li>
+                <!-- <li class="submenu">
                   <a href="#">
                     <i class="fas fa-chalkboard-teacher"></i>
                     <span> Teachers</span>
@@ -811,15 +817,15 @@
                     <span>Library</span>
                   </a>
                 </li>
-                <li class="submenu active">
-                  <a href="#" class="active subdrop">
+                <li class="submenu">
+                  <a href="#">
                     <i class="fa fa-newspaper"></i>
                     <span> Blogs</span>
                     <span class="menu-arrow"></span>
                   </a>
-                  <ul style="display: block;">
+                  <ul>
                     <li>
-                      <a href="blog.html" class="active">All Blogs</a>
+                      <a href="blog.html">All Blogs</a>
                     </li>
                     <li>
                       <a href="add-blog.html">Add Blog</a>
@@ -1191,7 +1197,7 @@
                       </a>
                     </li>
                   </ul>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>

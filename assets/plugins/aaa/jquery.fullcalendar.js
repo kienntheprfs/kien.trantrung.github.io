@@ -197,9 +197,29 @@
                 format: 'am',
                 numberofMonths: 4
             }
+            var courseDetails2 = {
+                courseName: 'Advanced Programming',
+                year: 2024,
+                month: 4,
+                day: 2,
+                start: '7:00',
+                end: '9:50',
+                format: 'am',
+                numberofMonths: 3
+            }
+            var courseDetails3 = {
+                courseName: 'Operating System',
+                year: 2024,
+                month: 4,
+                day: 18,
+                start: '13:00',
+                end: '15:50',
+                format: 'am',
+                numberofMonths: 3
+            }
             repeat(courseDetails);
-            repeat(courseDetails);
-            repeat(courseDetails);
+            repeat(courseDetails2);
+            repeat(courseDetails3);
 
 
 
