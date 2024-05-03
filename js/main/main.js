@@ -372,7 +372,7 @@ class Controller {
             }
             else if (filename == 'course-details.html') {
               // alert("Course details")
-              var courseId = "CO2009"
+              var courseId = "CO2007"
               this.model.getCourseData(courseId)
               .then((data) => {
                 this.view.loadCourseDetails(data.course_content);
@@ -380,12 +380,12 @@ class Controller {
               
             }
             else if (filename == "teacher-add-resources.html") {
-              alert("Course details")
-              // var courseId = "CO2009"
-              // this.model.getCourseData(courseId)
-              // .then((data) => {
-              //   this.view.loadCourseDetails(data.course_content);
-              // })
+              
+              var courseId = "CO2009"
+              this.model.getCourseData(courseId)
+              .then((data) => {
+                this.view.loadCourseDetails(data.course_content);
+              })
             }
 
             
