@@ -41,6 +41,18 @@ class Model {
       // });
       this.onDataChanged()
     }
+    addStudentData(username, student_data) {
+      // return new Promise((resolve, reject) => {
+        setData("user/student/" + username, student_data)
+          // .then(() => {
+          //   resolve("Success");
+          // })
+          // .catch((error) => {
+          //   reject(error);
+          // });
+      // });
+      this.onDataChanged()
+    }
     setTempData(data) {
         return new Promise((resolve, reject) => {
             setData("temp_data/", data)
@@ -327,6 +339,13 @@ class View {
         })
       })
     }
+    bindAddStudent(handler) {
+      $(document).ready(function() {
+        $("#submit").on("click", function(e) {
+          handler(e)
+        })
+      })
+    }
 
 
     
@@ -373,12 +392,12 @@ class Controller {
           else {
             get_current_user_data = this.model.getAdminData
           }
+          var path = window.location.pathname;
+          var filename = path.split('/').pop();
 
           get_current_user_data(user_name)
           .then((data) => {
 
-            var path = window.location.pathname;
-            var filename = path.split('/').pop();
 
             if (filename == 'edit-student.html') {
               this.view.LoadEditStudentView(data);
@@ -488,6 +507,7 @@ class Controller {
           .then((filename) => {
             if (filename == 'edit-student.html')
               this.view.bindSubmitEditStudent(this.handleEditStudent)
+            return filename
           })
           .then(() => {
             this.model.bindOnDataChanged(this.handleOnDataChanged)
@@ -502,7 +522,15 @@ class Controller {
             this.view.bindStudentCourse(this.handleStudentCourse)
           })
           .then(() => {
-            this.view.bindAddTeacher(this.handleAddTeacher)
+            if (filename == "add-teacher.html") {
+              this.view.bindAddTeacher(this.handleAddTeacher)
+            }
+            // this.view.bindAddTeacher(this.handleAddTeacher)
+          })
+          .then(() => {
+            if (filename == "add-student.html") {
+            this.view.bindAddStudent(this.handleAddStudent)
+            }
           })
         })
 
@@ -749,8 +777,49 @@ class Controller {
           
         })
     }
+    handleAddStudent = (e) => {
+      e.preventDefault()
 
 
+      var saveToFirebaseObject = {
+        name: $("#user-name").val(),
+        password: $("#password").val(),
+        repeat_password: $("#repeat-password").val(),
+      }
+
+      if (saveToFirebaseObject.password != saveToFirebaseObject.repeat_password) {
+        alert("Passwords do not match!")
+        return false;
+      }
+
+
+
+      for (var key in saveToFirebaseObject) {
+        if (saveToFirebaseObject[key] == "") {
+            alert("Please fill in all the fields!")
+            return false;
+        }
+      }
+
+      //check if the user name already exists
+      this.model.getStudentData(saveToFirebaseObject.name)
+      .then((data) => {
+        alert("User name already exists!")
+        $("#user-name").val("")
+      })
+      .catch(() => {
+        // var m = new Model();
+        //If this arrow function is called in the subclass of Controller, it will get error  
+        this.model.addStudentData(saveToFirebaseObject.name, {
+          password: saveToFirebaseObject.password, 
+        });
+        alert("Student added successfully!")
+        
+          
+          
+        })
+
+    }
 
 }
 
