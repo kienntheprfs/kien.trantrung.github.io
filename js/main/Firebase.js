@@ -136,7 +136,7 @@ class FirebaseController {
 
 
 
-    // Data getting
+    // Data getting 
     async getData(path) {
         try {
             const snapshot = await get(child(ref(this.db), path));
@@ -154,11 +154,11 @@ class FirebaseController {
 
 
         
-    //Data updating
+    //Data updating with no alert
     updateData(path, object_data) {
         update(ref(this.db, path), object_data)
         .then(() => {
-                alert("data updated succesfully");
+                // alert("data updated succesfully");
             })
         .catch(() => {
                 alert("Unsuccesful");

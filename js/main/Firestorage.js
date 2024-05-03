@@ -30,6 +30,20 @@ function uploadFile(file) {
   var fileInput = document.getElementById('take-file');
 
 $('#take-file').on('change', function(event) {
+    function uploadFileName()  {
+      var firebaseController = new FirebaseController();
+      var currentFileName = []
+      firebaseController.getData("/course/CO2007/course_content/files")
+      .then((files) => {
+        currentFileName = Object.entries(files).map(([key, value]) => value);
+        return currentFileName;
+      })
+      .then((currentFileName) => {
+        currentFileName.push(fileInput.files[0].name);
+        firebaseController.updateData("/course/CO2007/course_content/", {files: currentFileName});
+      })
+    }
+    uploadFileName();
     console.log(fileInput.files[0]);   
 
     const imageRef = ref(storage, 'myFolder/' + fileInput.files[0].name);
@@ -87,7 +101,7 @@ function deleteFile() {
 
 
 
-function downloadMultipleFiles(data) {
+function downloadMultipleFiles() {
   var fbController = new FirebaseController();
     fbController.getData("/course/CO2007/course_content/files")
     .then((files) => {
@@ -118,8 +132,8 @@ function downloadMultipleFiles(data) {
 
 
 
+uploadFile();
 downloadMultipleFiles()
-// uploadFile();
 // downloadFile();
 // deleteFile() 
 
