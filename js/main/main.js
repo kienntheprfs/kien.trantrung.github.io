@@ -17,6 +17,18 @@ class Model {
         });
     });
     }
+    getCourseData(course_id) {
+      return new Promise((resolve, reject) => {
+        getData("course/" + course_id + "/course_content/")
+        .then((data) => {
+          console.log("couse data: ", data)
+          resolve(data);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+    }
     setCurrentUser(login_type, username) {
       return new Promise((resolve, reject) => {
         setData("current_user/", {login_type: login_type, user_name: username})
@@ -202,6 +214,32 @@ class View {
     bindLogout(handler) {
       handler()
     }
+    loadCourseDetails(data) {
+      var source = $("#template").html();
+      var template = Handlebars.compile(source);
+
+
+      console.log(data)
+
+      var  file_names = Object.entries(data.files);
+      var file_links = Object.entries(data.links);
+      // console.log(context)
+      // console.log(file_names)
+      // console.log(file_links)
+
+      var arr = []
+      for (var i = 0; i < file_names.length; i++) {
+        arr.push({name: file_names[i][1], link: file_links[i][1]})
+      }
+      console.log(arr)
+
+
+      var html = template({links: arr});
+      $("#target").html(html);
+    }
+
+
+
 
 }
 var user_name = "onLogin"
@@ -281,8 +319,16 @@ class Controller {
             else if (filename == 'edit-teaching-course.html') {
               this.view.loadEditTeachingCourse(data);
             }
-            
+            else if (filename == 'course-details.html') {
+              // alert("Course details")
+              this.model.getCourseData("CO2007")
+              .then((data) => {
+                this.view.loadCourseDetails(data);
+              })
+              
+            }
 
+            
           })
           .catch((error) => {
               console.log(error);
