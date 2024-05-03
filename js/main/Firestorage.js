@@ -43,6 +43,22 @@ $('#take-file').on('change', function(event) {
         firebaseController.updateData("/course/CO2007/course_content/", {files: currentFileName});
       })
     }
+    function uploadFileLink() {
+      var firebaseController = new FirebaseController();
+      var currentFileLink = []
+      firebaseController.getData("/course/CO2007/course_content/links")
+      .then((links) => {
+        currentFileLink = Object.entries(links).map(([key, value]) => value);
+        return currentFileLink;
+      })
+      .then((currentFileLink) => {
+        currentFileLink.push(fileInput.files[0].name);
+        firebaseController.updateData("/course/CO2007/course_content/", {links: currentFileLink});
+      })
+    }
+
+
+
     uploadFileName();
     console.log(fileInput.files[0]);   
 
@@ -54,6 +70,7 @@ $('#take-file').on('change', function(event) {
         // Let's get a download URL for the file.
         getDownloadURL(snapshot.ref).then((url) => {
         console.log('File available at', url);
+        uploadFileLink();
         // ...
         });
     }).catch((error) => {
