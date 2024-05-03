@@ -490,7 +490,7 @@ class Controller {
             location = "teacher-details.html";
           }
           else if (login_type == "admin") {
-            location = "index.html";
+            location = "admin-students.html";
           }
           
           
