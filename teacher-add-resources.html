@@ -622,8 +622,8 @@
               <ul>
                 <li class="menu-title">
                   <span>Main Menu</span>
-                </li>
-                <li class="submenu">
+                </li class="submenu">
+                <!-- <li class="submenu">
                   <a href="#">
                     <i class="feather-grid"></i>
                     <span> Dashboard</span>
@@ -661,29 +661,68 @@
                       <a href="edit-student.html">Student Edit</a>
                     </li>
                   </ul>
-                </li>
-                <li class="submenu">
-                  <a href="#">
+                </li> -->
+                <li>
+                  <a href="#" class="active subdrop">
                     <i class="fas fa-chalkboard-teacher"></i>
                     <span> Teachers</span>
                     <span class="menu-arrow"></span>
                   </a>
-                  <ul>
-                    <li>
+                  <ul style="display: block;">
+                    <!-- <li>
                       <a href="teachers.html">Teacher List</a>
-                    </li>
+                    </li> -->
                     <li>
-                      <a href="teacher-details.html">Teacher View</a>
+                      <a href="teacher-details.html" >Teacher View</a>
                     </li>
-                    <li>
+                    <!-- <li>
                       <a href="add-teacher.html">Teacher Add</a>
-                    </li>
+                    </li> -->
                     <li>
                       <a href="edit-teacher.html">Teacher Edit</a>
                     </li>
                   </ul>
                 </li>
+                <li class="submenu active">
+                  <a href="#">
+                    <i class="fas fa-building"></i>
+                    <span>Courses</span>
+                    <span class="menu-arrow"></span>
+                  </a>
+                  <ul>
+                    <li>
+                      <a href="edit-teaching-course.html" class="active">Edit Teaching Courses</a>
+                    </li>
+                    <!-- <li>
+                      <a href="departments.html"></a>
+                    </li> -->
+                  </ul>
+                </li>
                 <li class="submenu">
+                    <a href="#">
+                        <i class="fas fa-building"></i>
+                        <span>Schedule</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul>
+                        <li>
+                        <a href="teaching-schedule.html">Teaching Schedule</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="#">
+                        <i class="fas fa-building"></i>
+                        <span>Class list</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul>
+                        <li>
+                        <a href="student-list.html">Student list</a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- <li class="submenu">
                   <a href="#">
                     <i class="fas fa-building"></i>
                     <span> Departments</span>
@@ -812,13 +851,13 @@
                     <span>Library</span>
                   </a>
                 </li>
-                <li class="submenu active">
-                  <a href="#" class="active subdrop">
+                <li class="submenu">
+                  <a href="#">
                     <i class="fa fa-newspaper"></i>
                     <span> Blogs</span>
                     <span class="menu-arrow"></span>
                   </a>
-                  <ul style="display: block;">
+                  <ul>
                     <li>
                       <a href="blog.html">All Blogs</a>
                     </li>
@@ -826,7 +865,7 @@
                       <a href="add-blog.html">Add Blog</a>
                     </li>
                     <li>
-                      <a href="edit-blog.html" class="active">Edit Blog</a>
+                      <a href="edit-blog.html">Edit Blog</a>
                     </li>
                   </ul>
                 </li>
@@ -1192,7 +1231,7 @@
                       </a>
                     </li>
                   </ul>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>
@@ -1239,7 +1278,7 @@
                         </div>
                         
                       </div>
-                      <center><iframe src="https://firebasestorage.googleapis.com/v0/b/btl-ltnc-232.appspot.com/o/myFolder%2Fwepik-simple-m-high-school-student-resume-20240413154106lJF6.pdf?alt=media&token=49b69363-fe6c-486b-ac74-100104ebdab8"  style="border: 0; width:90%; height: 500px; overflow: auto;" ></iframe></center>
+                      <center><iframe src="" id="preview" style="border: 0; width:90%; height: 500px; overflow: auto; display: none;" ></iframe></center>
                       
                     </div>
                   </div>
@@ -1266,7 +1305,8 @@
     <script src="assets/js/script.js" type="text/javascript"></script>
 
     <script type="module" src="./js/main/Firebase.js"></script>
-    <script type="module" src="./js/main/Firestorage.js"></script>
+    <script type="module" src="./js/main/main.js"></script>
+    <!-- <script type="module" src="./js/main/Firestorage.js"></script> -->
 
     <div class="sidebar-overlay"></div>
     <div class="ck-body-wrapper">

@@ -26,34 +26,34 @@ const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
 
 
-function uploadFile(file) {
+function uploadFile(courseId) {
   var fileInput = document.getElementById('take-file');
 
 $('#take-file').on('change', function(event) {
     function uploadFileName()  {
       var firebaseController = new FirebaseController();
       var currentFileName = []
-      firebaseController.getData("/course/CO2007/course_content/files")
+      firebaseController.getData("/course/"+courseId+"/course_content/files")
       .then((files) => {
         currentFileName = Object.entries(files).map(([key, value]) => value);
         return currentFileName;
       })
       .then((currentFileName) => {
         currentFileName.push(fileInput.files[0].name);
-        firebaseController.updateData("/course/CO2007/course_content/", {files: currentFileName});
+        firebaseController.updateData("/course/"+courseId+"/course_content/", {files: currentFileName});
       })
     }
     function uploadFileLink() {
       var firebaseController = new FirebaseController();
       var currentFileLink = []
-      firebaseController.getData("/course/CO2007/course_content/links")
+      firebaseController.getData("/course/"+courseId+"/course_content/links")
       .then((links) => {
         currentFileLink = Object.entries(links).map(([key, value]) => value);
         return currentFileLink;
       })
       .then((currentFileLink) => {
         currentFileLink.push(fileInput.files[0].name);
-        firebaseController.updateData("/course/CO2007/course_content/", {links: currentFileLink});
+        firebaseController.updateData("/course/"+courseId+"/course_content/", {links: currentFileLink});
       })
     }
 
@@ -70,7 +70,9 @@ $('#take-file').on('change', function(event) {
         // Let's get a download URL for the file.
         getDownloadURL(snapshot.ref).then((url) => {
         console.log('File available at', url);
-        uploadFileLink();
+        // uploadFileLink();
+        $('#preview').attr('src', url);
+        $('#preview').css('display', 'block');
         // ...
         });
     }).catch((error) => {
@@ -91,7 +93,7 @@ function downloadFile(fileName) {
     getDownloadURL(starsRef)
       .then((url) => {
         // Insert url into an <img> tag to "download"
-        console.log("File url available at: " + url + "\n");
+        // console.log("File url available at: " + url + "\n");
         resolve(url); // Resolve the Promise with the download URL
       })
       .catch((error) => {
@@ -118,9 +120,12 @@ function deleteFile() {
 
 
 
-function downloadMultipleFiles() {
-  var fbController = new FirebaseController();
-    fbController.getData("/course/CO2007/course_content/files")
+function downloadMultipleFiles(courseId) {
+  return new Promise((resolve, reject) => {
+
+
+    var fbController = new FirebaseController();
+    fbController.getData("/course/"+courseId+"/course_content/files")
     .then((files) => {
       // console.log("Files to download: ", files, files.length);
 
@@ -130,31 +135,45 @@ function downloadMultipleFiles() {
         promises.push(Promise.resolve(downloadFile(files[i])));
       }
 
-      Promise.all(promises) 
+      return new Promise((resolve, reject) => {
+        Promise.all(promises) 
         .then(values => {
-          console.log(values); 
+          // console.log(values); 
           for (let i = 0; i < values.length; i++) {
-            fbController.updateData("/course/CO2007/course_content/", {links: values});
+            fbController.updateData("/course/"+courseId+"/course_content/", {links: values});
           }
+          resolve();
         })
-        .catch(error => {
-          console.error(error);
-        });
+        // .catch(error => {
+        //   console.error(error);
+        // });
+      })
     })
-      .catch((error) => {
+      
+    
+    
+    .catch((error) => {
         reject(error);
       });
+
+
+
+
+
+
+  })
+    
 
 }
 
 
 
-uploadFile();
-downloadMultipleFiles()
+// uploadFile();
+// downloadMultipleFiles()
 // downloadFile();
 // deleteFile() 
 
-export { uploadFile, downloadFile, deleteFile };
+export { uploadFile, downloadFile, deleteFile, downloadMultipleFiles };
 
 
 

@@ -1,6 +1,6 @@
 import { getData, setData, updateData, removeData, initFirebase} from './Firebase.js'
 import { FirebaseController } from './Firebase.js';
-// import { uploadFile, downloadFile } from './Firestorage.js'
+import { uploadFile, downloadFile, downloadMultipleFiles } from './Firestorage.js'
 // import {BasicUserInfo, Student, Instructor} from "./user_info.js";
 class Model {
     constructor(){
@@ -224,19 +224,29 @@ class View {
 
       var  file_names = Object.entries(data.files);
       var file_links = Object.entries(data.links);
+      
+
       // console.log(context)
       // console.log(file_names)
       // console.log(file_links)
+      // console.log(typeof downloadMultipleFiles)
+      
+      downloadMultipleFiles()
+      // .then(() => {
+        var arr = []
+        for (var i = 0; i < file_names.length; i++) {
+          arr.push({name: file_names[i][1], link: file_links[i][1]})
+        }
+        console.log(arr)
 
-      var arr = []
-      for (var i = 0; i < file_names.length; i++) {
-        arr.push({name: file_names[i][1], link: file_links[i][1]})
-      }
-      console.log(arr)
+
+        var html = template({links: arr});
+        $("#target").html(html);
+      // })
 
 
-      var html = template({links: arr});
-      $("#target").html(html);
+
+
     }
     
 
@@ -245,6 +255,7 @@ class View {
 
 }
 var user_name = "onLogin"
+var login_type = ""
 class Controller {
     constructor(model, view){
         this.model = model;
@@ -254,7 +265,9 @@ class Controller {
         this.model.getCurrentUser()
         .then((data) => {
           console.log(data)
-          if (data.user_name != "onLogin") {  
+          if (data.user_name != "onLogin") {
+            console.log("User logged in")
+            login_type = data.login_type  
             user_name = data.user_name
           }
           else if (data.user_name == "") {
@@ -269,7 +282,18 @@ class Controller {
           
         })
         .then(() => {
-          this.model.getStudentData(user_name)
+          var get_current_user_data;
+          if (login_type == "student") {
+            get_current_user_data = this.model.getStudentData
+          }
+          else if (login_type == "teacher") {
+            get_current_user_data = this.model.getTeacherData
+          }
+          else {
+            get_current_user_data = this.model.getAdminData
+          }
+
+          get_current_user_data(user_name)
           .then((data) => {
 
             var path = window.location.pathname;
@@ -348,11 +372,20 @@ class Controller {
             }
             else if (filename == 'course-details.html') {
               // alert("Course details")
-              this.model.getCourseData("CO2007")
+              var courseId = "CO2009"
+              this.model.getCourseData(courseId)
               .then((data) => {
                 this.view.loadCourseDetails(data.course_content);
               })
               
+            }
+            else if (filename == "teacher-add-resources.html") {
+              alert("Course details")
+              // var courseId = "CO2009"
+              // this.model.getCourseData(courseId)
+              // .then((data) => {
+              //   this.view.loadCourseDetails(data.course_content);
+              // })
             }
 
             
@@ -379,7 +412,7 @@ class Controller {
     handleLogout() {
       $("#logout").on("click", function(e) {
         var fbcontroller = new FirebaseController()
-        fbcontroller.setData("current_user", {user_name: "onLogin"})
+        fbcontroller.updateData("current_user", {user_name: "onLogin", login_type: ""})
       })
     }
     handleOnDataChanged() {
