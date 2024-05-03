@@ -712,7 +712,8 @@ class Controller {
       var saveToFirebaseObject = {
         name: $("#user-name").val(),
         password: $("#password").val(),
-        repeat_password: $("#repeat-password").val()
+        repeat_password: $("#repeat-password").val(),
+        teaching_courses_id: $("#teaching-courses-id").val()
       }
 
       if (saveToFirebaseObject.password != saveToFirebaseObject.repeat_password) {
@@ -738,7 +739,10 @@ class Controller {
       .catch(() => {
         // var m = new Model();
         //If this arrow function is called in the subclass of Controller, it will get error  
-        this.model.addTeacherData(saveToFirebaseObject.name, {password: saveToFirebaseObject.password});
+        this.model.addTeacherData(saveToFirebaseObject.name, {
+          password: saveToFirebaseObject.password, 
+          teaching_courses_id: saveToFirebaseObject.teaching_courses_id
+        });
         alert("Teacher added successfully!")
         
           
