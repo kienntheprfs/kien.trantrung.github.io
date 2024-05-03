@@ -29,6 +29,18 @@ class Model {
         });
     });
     }
+    addTeacherData(username, teacher_data) {
+      // return new Promise((resolve, reject) => {
+        setData("user/teacher/" + username, teacher_data)
+          // .then(() => {
+          //   resolve("Success");
+          // })
+          // .catch((error) => {
+          //   reject(error);
+          // });
+      // });
+      this.onDataChanged()
+    }
     setTempData(data) {
         return new Promise((resolve, reject) => {
             setData("temp_data/", data)
@@ -123,6 +135,7 @@ class Model {
           });
       });
     }
+    
     bindOnDataChanged(handler) {
       this.onDataChanged = handler
     }
@@ -184,22 +197,16 @@ class View {
       // alert(data.personal_email)
       var context = data.personal_info
       
-      var selected_1;
-      var selected_2;
-      var selected_3;
+      var selected_1 = "";
+      var selected_2 = "";
+      var selected_3 = "";
       if (data.personal_info.gender == "Other") {
         context.selected_1 = "selected";
-        context.selected_2 = "";
-        context.selected_3 = "";
       }
       else if (data.personal_info.gender == "Female") {
-        context.selected_1 = "";
         context.selected_2 = "selected";
-        context.selected_3 = "";
       }
       else { 
-        context.selected_1 = "";
-        context.selected_2 = "";
         context.selected_3 = "selected";
       }
 
@@ -305,6 +312,20 @@ class View {
     bindStudentCourse(handler) {
         // alert("bindStudentCourse not implemented yet")
         this.StudentCourseCallback = handler
+    }
+    loadAddTeacher() {
+      var source = $("#template").html();
+      var template = Handlebars.compile(source);
+      var html = template();
+      $("#target").html(html);
+    }
+    bindAddTeacher(handler) {
+      // alert("bindAddTeacher not implemented yet")
+      $(document).ready(function() {
+        $("#submit").on("click", function(e) {
+          handler(e)
+        })
+      })
     }
 
 
@@ -454,14 +475,19 @@ class Controller {
                 this.view.loadCourseDetails(data.course_content);
               })
             }
+            else if (filename == "add-teacher.html") {
+              this.view.loadAddTeacher()
+            }
 
+            return filename
             
           })
           .catch((error) => {
               console.log(error);
           })
-          .then(() => {
-            this.view.bindSubmitEditStudent(this.handleEditStudent)
+          .then((filename) => {
+            if (filename == 'edit-student.html')
+              this.view.bindSubmitEditStudent(this.handleEditStudent)
           })
           .then(() => {
             this.model.bindOnDataChanged(this.handleOnDataChanged)
@@ -474,6 +500,9 @@ class Controller {
           })
           .then(() => {
             this.view.bindStudentCourse(this.handleStudentCourse)
+          })
+          .then(() => {
+            this.view.bindAddTeacher(this.handleAddTeacher)
           })
         })
 
@@ -669,7 +698,57 @@ class Controller {
         // })
         
     }
-  }
+    handleAddTeacher = (e) => {
+      e.preventDefault()
+      
+      // var emailInput = document.getElementById('personal_email');
+      // if (!emailInput.checkValidity() || emailInput.value == "") {
+      //   alert("Invalid email address!")
+      //   return false;
+      // }
+
+      
+
+      var saveToFirebaseObject = {
+        name: $("#user-name").val(),
+        password: $("#password").val(),
+        repeat_password: $("#repeat-password").val()
+      }
+
+      if (saveToFirebaseObject.password != saveToFirebaseObject.repeat_password) {
+        alert("Passwords do not match!")
+        return false;
+      }
+
+
+
+      for (var key in saveToFirebaseObject) {
+        if (saveToFirebaseObject[key] == "") {
+            alert("Please fill in all the fields!")
+            return false;
+        }
+      }
+
+      //check if the user name already exists
+      this.model.getTeacherData(saveToFirebaseObject.name)
+      .then((data) => {
+        alert("User name already exists!")
+        $("#user-name").val("")
+      })
+      .catch(() => {
+        // var m = new Model();
+        //If this arrow function is called in the subclass of Controller, it will get error  
+        this.model.addTeacherData(saveToFirebaseObject.name, {password: saveToFirebaseObject.password});
+        alert("Teacher added successfully!")
+        
+          
+          
+        })
+    }
+
+
+
+}
 
 
 let Controller1 = new Controller(new Model(), new View())
