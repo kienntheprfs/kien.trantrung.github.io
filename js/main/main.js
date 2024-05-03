@@ -155,6 +155,15 @@ class View {
       var html = template(context);
       $("#target").html(html);
     }
+    loadStudentCourse(data) {
+      var source = $("#template").html();
+      var template = Handlebars.compile(source);
+
+      var context = data;
+
+      var html = template(context);
+      $("#target").html(html);
+    }
 
 }
 
@@ -215,6 +224,7 @@ class Controller {
           else if (filename == 'edit-teaching-course.html') {
             this.view.loadEditTeachingCourse(data);
           }
+          
 
         })
         .catch((error) => {
