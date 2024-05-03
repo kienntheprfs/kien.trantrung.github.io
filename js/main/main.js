@@ -19,7 +19,7 @@ class Model {
     }
     getCourseData(course_id) {
       return new Promise((resolve, reject) => {
-        getData("course/" + course_id + "/course_content/")
+        getData("course/" + course_id)
         .then((data) => {
           console.log("couse data: ", data)
           resolve(data);
@@ -184,9 +184,10 @@ class View {
       var source = $("#template").html();
       var template = Handlebars.compile(source);
 
-      var context = data.registered_courses;
+      var context = data;
+      console.log(context)
 
-      var html = template(context);
+      var html = template({courses: context});
       $("#target").html(html);
 
     }
@@ -237,6 +238,7 @@ class View {
       var html = template({links: arr});
       $("#target").html(html);
     }
+    
 
 
 
@@ -314,7 +316,32 @@ class Controller {
               this.view.loadStudentView(data);
             }
             else if (filename == 'student-course.html') {
-              this.view.loadStudentCourseView(data);
+              var registered_courses = data.registered_course
+              var course_IDs = Object.keys(registered_courses) 
+              
+              // console.log(course_IDs)
+              console.log(registered_courses)
+
+
+              const promises = [];
+              for (let i = 0; i < course_IDs.length; i++) {
+                promises.push(Promise.resolve(this.model.getCourseData(course_IDs[i])));
+              }
+        
+              Promise.all(promises)
+              .then(data => {
+                console.log(data);
+                // this.model.getCourseData("CO2007")
+                // .then((data) => {
+                  var course_INFOs = data.map((course) => course.course_info )
+                  console.log(course_INFOs)
+                  this.view.loadStudentCourseView(course_INFOs);
+                // })
+
+            })
+
+
+
             }
             else if (filename == 'edit-teaching-course.html') {
               this.view.loadEditTeachingCourse(data);
@@ -323,7 +350,7 @@ class Controller {
               // alert("Course details")
               this.model.getCourseData("CO2007")
               .then((data) => {
-                this.view.loadCourseDetails(data);
+                this.view.loadCourseDetails(data.course_content);
               })
               
             }

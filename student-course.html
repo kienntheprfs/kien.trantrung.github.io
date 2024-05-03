@@ -1233,15 +1233,16 @@
             </div>
           </div> -->
           <div class="row">
+            {{#each courses}}
             <div class="col-md-6 col-xl-4 col-sm-12 d-flex">
               <div class="blog grid-blog flex-fill">
                 <div class="blog-image">
                   <a href="course-details.html">
                     <img class="img-fluid" src="assets/img/category/blog-6.jpg" alt="Post Image">
                   </a>
-                  <div class="blog-views">
+                  <!-- <div class="blog-views">
                     <i class="feather-eye me-1"></i> 225
-                  </div>
+                  </div> -->
                 </div>
                 <div class="blog-content">
                   <ul class="entry-meta meta-item">
@@ -1250,23 +1251,23 @@
                         <a href="profile.html">
                           <img src="assets/img/profiles/avatar-01.jpg" alt="Post Author">
                           <span>
-                            <span class="post-title">Vincent</span>
+                            <span class="post-title">{{instructor}}</span>
                             <span class="post-date">
                               <!-- <i class="far fa-clock"></i>  -->
                               <img src="assets/img/icons/clock-course.svg" style="height: 10px;width: 10px; margin-right: 0px;">
                               </span>
-                              <span>4 April 2024 </span>
+                              <span>{{start_date}}</span>
                           </span>
                         </a>
                       </div>
                     </li>
                   </ul>
                   <h3 class="blog-title">
-                    <a href="course-details.html">Subject: Operating System</a>
+                    <a href="course-details.html">Subject: <strong> {{course_name}}</strong> </a>
                   </h3>
-                  <span style="color: gray; font-size: 12px;">Course ID: CO2007</span><br>
-                  <span style="color: gray; font-size: 12px;">Number of months: 3</span><br>
-                  <span style="color: gray; font-size: 12px;">Period: 7am - 9am</span><br>
+                  <span style="color: gray; font-size: 12px;">Course ID: {{course_id}}</span><br>
+                  <span style="color: gray; font-size: 12px;">Number of months: {{number_of_months}}</span><br>
+                  <span style="color: gray; font-size: 12px;">Period: {{start_time}}am - {{end_time}}am</span><br>
                 </div>
                 <div class="row">
                   <div class="edit-options">
@@ -1285,6 +1286,8 @@
                 </div>
               </div>
             </div>
+            {{/each}}
+            
             <!-- <div class="col-md-6 col-xl-4 col-sm-12 d-flex">
               <div class="blog grid-blog flex-fill">
                 <div class="blog-image">
