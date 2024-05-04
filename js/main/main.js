@@ -31,7 +31,7 @@ class Model {
     }
     addTeacherData(username, teacher_data) {
       // return new Promise((resolve, reject) => {
-        setData("user/teacher/" + username, teacher_data)
+        updateData("user/teacher/" + username, teacher_data)
           // .then(() => {
           //   resolve("Success");
           // })
@@ -43,7 +43,7 @@ class Model {
     }
     addStudentData(username, student_data) {
       // return new Promise((resolve, reject) => {
-        setData("user/student/" + username, student_data)
+        updateData("user/student/" + username, student_data)
           // .then(() => {
           //   resolve("Success");
           // })
@@ -737,14 +737,19 @@ class Controller {
 
       
 
+      var name = $("#user-name").val()
+      var password = $("#password").val()
+      var repeat_password = $("#repeat-password").val()
       var saveToFirebaseObject = {
-        name: $("#user-name").val(),
-        password: $("#password").val(),
-        repeat_password: $("#repeat-password").val(),
-        teaching_courses_id: $("#teaching-courses-id").val()
+        teaching_courses_id: $("#teaching-courses-id").val(),
+        course_name: $("#course-name").val(),
+        course_type: $("#course-type").val(),
+        course_description: $("#course-description").val(),
+        course_introduction: $("#course-introduction").val(),
+
       }
 
-      if (saveToFirebaseObject.password != saveToFirebaseObject.repeat_password) {
+      if (password != repeat_password) {
         alert("Passwords do not match!")
         return false;
       }
@@ -767,10 +772,7 @@ class Controller {
       .catch(() => {
         // var m = new Model();
         //If this arrow function is called in the subclass of Controller, it will get error  
-        this.model.addTeacherData(saveToFirebaseObject.name, {
-          password: saveToFirebaseObject.password, 
-          teaching_courses_id: saveToFirebaseObject.teaching_courses_id
-        });
+        this.model.addTeacherData(name, {password: password, teaching_course: saveToFirebaseObject});
         alert("Teacher added successfully!")
         
           

@@ -63,7 +63,7 @@ async function getData(path) {
 function updateData(path, object_data) {
     update(ref(db, path), object_data)
     .then(() => {
-            alert("data updated succesfully");
+            // alert("data updated succesfully");
         })
     .catch(() => {
             alert("Unsuccesful");
