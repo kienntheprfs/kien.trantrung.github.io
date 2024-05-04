@@ -400,14 +400,17 @@ class View {
       handler()
     }
     loadCourseDetails(data) {
+      var course_content = data.course_content
+      var course_info = data.course_info
+
       var source = $("#template").html();
       var template = Handlebars.compile(source);
 
 
-      console.log(data)
+      console.log(course_content)
 
-      var  file_names = Object.entries(data.files);
-      var file_links = Object.entries(data.links);
+      var  file_names = Object.entries(course_content.files);
+      var file_links = Object.entries(course_content.links);
       
 
       // console.log(context)
@@ -424,7 +427,14 @@ class View {
         console.log(arr)
 
 
-        var html = template({links: arr});
+        var html = template({
+          links: arr, 
+          major: course_info.course_type,
+          introduction: course_info.course_introduction,
+          description: course_info.course_description,
+          requirement: course_info.course_requirement,
+          instructor: course_info.instructor,
+        });
         $("#target").html(html);
       // })
     
@@ -590,7 +600,7 @@ class Controller {
                 .then((courseId) => {
                 this.model.getCourseData(courseId)
                 .then((data) => {
-                    this.view.loadCourseDetails(data.course_content);
+                    this.view.loadCourseDetails(data);
               })
             })
               
