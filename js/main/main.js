@@ -41,6 +41,18 @@ class Model {
       // });
       this.onDataChanged()
     }
+    addCourseData(course_id, course_data) {
+      // return new Promise((resolve, reject) => {
+        updateData("course/" + course_id, course_data)
+          // .then(() => {
+          //   resolve("Success");
+          // })
+          // .catch((error) => {
+          //   reject(error);
+          // });
+      // });
+      this.onDataChanged()
+    }
     addStudentData(username, student_data) {
       // return new Promise((resolve, reject) => {
         updateData("user/student/" + username, student_data)
@@ -740,13 +752,20 @@ class Controller {
       var name = $("#user-name").val()
       var password = $("#password").val()
       var repeat_password = $("#repeat-password").val()
+      var teaching_courses_id = $("#teaching-courses-id").val()
       var saveToFirebaseObject = {
-        teaching_courses_id: $("#teaching-courses-id").val(),
         course_name: $("#course-name").val(),
         course_type: $("#course-type").val(),
         course_description: $("#course-description").val(),
         course_introduction: $("#course-introduction").val(),
-
+        course_requirements: $("#course-requirements").val(),
+        
+        start_time: $("#start-time").val(),
+        end_time: $("#end-time").val(),
+        number_of_months: $("#number-of-months").val(),
+        instructor: name,
+        course_id: teaching_courses_id,
+        start_date: $("#start-date").val(),
       }
 
       if (password != repeat_password) {
@@ -772,7 +791,9 @@ class Controller {
       .catch(() => {
         // var m = new Model();
         //If this arrow function is called in the subclass of Controller, it will get error  
-        this.model.addTeacherData(name, {password: password, teaching_course: saveToFirebaseObject});
+        this.model.addTeacherData(name, {password: password, teaching_courses_id: teaching_courses_id 
+        });
+        this.model.addCourseData(teaching_courses_id, saveToFirebaseObject)
         alert("Teacher added successfully!")
         
           
