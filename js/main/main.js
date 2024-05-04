@@ -793,7 +793,7 @@ class Controller {
         //If this arrow function is called in the subclass of Controller, it will get error  
         this.model.addTeacherData(name, {password: password, teaching_courses_id: teaching_courses_id 
         });
-        this.model.addCourseData(teaching_courses_id, saveToFirebaseObject)
+        this.model.addCourseData(teaching_courses_id, {course_info: saveToFirebaseObject})
         alert("Teacher added successfully!")
         
           
