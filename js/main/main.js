@@ -237,12 +237,16 @@ class View {
       var html = template(context);
       $("#target").html(html);
     }
+
+    
+
+
     loadStudentCourse(data, handler) {
       var source = $("#template").html();
       var template = Handlebars.compile(source);
 
       var context = data;
-    //   console.log(context)
+      console.log(context)
 
       var html = template({courses: context});
       $("#target").html(html);
@@ -287,6 +291,65 @@ class View {
 
 
     }
+    loadRegisterNewCourse(data, handler) {
+      var source = $("#template").html();
+      var template = Handlebars.compile(source);
+      
+      var context = data;
+      console.log(context)
+
+      const outputArray = context.map(([_, value]) => value);
+      console.log(outputArray[1].course_info);
+
+      var finalArray = []
+      for (var i = 0; i < outputArray.length; i++) {
+        finalArray.push(outputArray[i].course_info)
+      }
+
+      var html = template({courses: finalArray});
+      $("#target").html(html);
+
+
+    
+
+    // Select the parent element
+    var parentElement = document.getElementById('parentList');
+
+    // Get all child elements
+    var childElements = parentElement.children;
+
+    // Create an array to store the child element IDs
+    var course_IDs = [];
+    // Iterate through the child elements and get their IDs
+    for (var i = 0; i < childElements.length; i++) {
+    var childId = childElements[i].id;
+    // console.log('Child ID:', childId);
+        course_IDs.push(childId)
+    }
+
+    
+    document.addEventListener('click', function(e) {
+        for (var i = 0; i < course_IDs.length; i++) {
+            if (e.target && e.target.id === course_IDs[i]) {
+                // var model = new Model()
+                // var res = model.getCourseData(e.target.id)
+                // res.then((data) => {
+                //     console.log(data)
+                // })
+                handler(e.target.id)
+            }
+        }
+    })
+    
+    
+
+
+
+
+
+
+    }
+    
     loadEditTeachingCourse(data) {
       var source = $("#template").html();
       var template = Handlebars.compile(source);
@@ -509,6 +572,18 @@ class Controller {
             else if (filename == "add-teacher.html") {
               this.view.loadAddTeacher()
             }
+            else if (filename == "register-new-course.html") {
+              if (login_type == "student") {
+                
+                this.model.getCourseData("").then((data) => {
+                  var all_courses = Object.entries(data)
+                  // console.log(all_courses.values())
+                  // var all_courses = data.map((course) => course.course_info )
+                  this.view.loadRegisterNewCourse(all_courses, this.handleRegisterNewCourse)
+                  
+                })
+            }
+          }
 
             return filename
             
@@ -548,6 +623,23 @@ class Controller {
 
         
     }
+    handleRegisterNewCourse = () => {
+      //pull all course data from the database
+      var model = new Model()
+      model.getCourseData()
+      .then((data) => {
+        console.log(data)
+        // var course_data = data
+        // var registered_courses = data.registered_course
+        // var course_IDs = Object.keys(registered_courses) 
+        // var course_INFOs = course_data.map((course) => course.course_info )
+        // // console.log(course_INFOs)
+        // this.view.loadStudentCourse(course_INFOs, this.handleStudentCourse);
+      })
+      
+
+    }
+
     handleLogout() {
       $("#logout").on("click", function(e) {
         var fbcontroller = new FirebaseController()
@@ -662,7 +754,7 @@ class Controller {
             location = "teacher-details.html";
           }
           else if (login_type == "admin") {
-            location = "admin-students.html";
+            location = "add-student.html";
           }
           
           

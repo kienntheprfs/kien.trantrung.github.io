@@ -1205,9 +1205,18 @@
           <div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
         </div>
       </div>
+      <div id="target"></div>
+    </div>
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script type="text/x-handlebars-template" id="template">
       <div class="page-wrapper" style="min-height: 275px;">
         <div class="content container-fluid">
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-md-9">
               <ul class="list-links mb-4">
                 <li class="active">
@@ -1222,55 +1231,67 @@
               <a href="add-blog.html" class="btn btn-primary btn-blog mb-3">
                 <i class="feather-plus-circle me-1"></i> Add New </a>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 col-xl-4 col-sm-12 d-flex">
+          </div> -->
+          <div class="row" id="parentList">
+            {{#each courses}}
+            <div class="col-md-6 col-xl-4 col-sm-12 d-flex" id="{{course_id}}">
               <div class="blog grid-blog flex-fill">
                 <div class="blog-image">
-                  <a href="course-details.html">
+                  <a href="#">
                     <img class="img-fluid" src="assets/img/category/blog-6.jpg" alt="Post Image">
                   </a>
-                  <div class="blog-views">
+                  <!-- <div class="blog-views">
                     <i class="feather-eye me-1"></i> 225
-                  </div>
+                  </div> -->
                 </div>
                 <div class="blog-content">
                   <ul class="entry-meta meta-item">
                     <li>
                       <div class="post-author">
-                        <a href="profile.html">
+                        <a href="#">
                           <img src="assets/img/profiles/avatar-01.jpg" alt="Post Author">
                           <span>
-                            <span class="post-title">Vincent</span>
+                            <span class="post-title">{{instructor}}</span>
                             <span class="post-date">
-                              <i class="far fa-clock"></i> 4 Dec 2022 </span>
+                              <!-- <i class="far fa-clock"></i>  -->
+                              <img src="assets/img/icons/clock-course.svg" style="height: 10px;width: 10px; margin-right: 0px;">
+                              </span>
+                              <span>Start date: {{start_date}}</span>
                           </span>
                         </a>
                       </div>
                     </li>
                   </ul>
                   <h3 class="blog-title">
-                    <a href="blog-details.html">Learning is an objective, Lorem Ipsum is not </a>
+                    <a href="#">Subject: <strong> {{course_name}}</strong> </a>
                   </h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur em adipiscing elit, sed do eiusmod tempor.</p>
+                  <span style="font-weight: 500; font-size: 12.5px;">Course ID: </span><span style="color: gray; font-size: 12px;" name="get-course-id">{{course_id}}</span><br>
+                  <span style="font-weight: 500; font-size: 12.5px;">Number of months: </span><span style="color: gray; font-size: 12px;">{{number_of_months}}</span><br>
+                  <span style="font-weight: 500; font-size: 12.5px;">Period: </span><span style="color: gray; font-size: 12px;">{{start_time}}am - {{end_time}}am</span><br>
                 </div>
                 <div class="row">
-                  <div class="edit-options">
+                  <!-- <div class="edit-options"> -->
+                    <a ="#" id="{{course_id}}" class="btn btn-success">Register This Course</a>
+
+                    <!-- <div class="text-end inactive-style">
+                      <a id="{{course_id}}" href="javascript:void(0);" class="text-primary" data-bs-toggle="modal" data-bs-target="#deleteNotConfirmModal">
+                        <i class="feather-eye-off me-1"></i> 
+                        View details </a>
+                    </div>
                     <div class="edit-delete-btn">
-                      <a href="edit-blog.html" class="text-success">
-                        <i class="feather-edit-3 me-1"></i> Edit </a>
+                      <a href="javascript:void(0);" class="text-success">
+                        <i class="feather-edit-3 me-1"></i>
+                         Registered </a>
                       <a href="#" class="text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                         <i class="feather-trash-2 me-1"></i> Delete </a>
-                    </div>
-                    <div class="text-end inactive-style">
-                      <a href="javascript:void(0);" class="text-danger" data-bs-toggle="modal" data-bs-target="#deleteNotConfirmModal">
-                        <i class="feather-eye-off me-1"></i> Inactive </a>
-                    </div>
-                  </div>
+                    </div> -->
+                  <!-- </div> -->
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-xl-4 col-sm-12 d-flex">
+            {{/each}}
+            
+            <!-- <div class="col-md-6 col-xl-4 col-sm-12 d-flex">
               <div class="blog grid-blog flex-fill">
                 <div class="blog-image">
                   <a href="blog-details.html">
@@ -1499,9 +1520,9 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
-          <div class="row ">
+          <!-- <div class="row ">
             <div class="col-md-12">
               <div class="pagination-tab  d-flex justify-content-center">
                 <ul class="pagination mb-0">
@@ -1529,7 +1550,7 @@
                 </ul>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="modal fade contentmodal" id="deleteModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content doctor-profile">
@@ -1555,7 +1576,11 @@
           </div>
         </div>
       </div>
-    </div>
+    </script>
+
+
+
+
     <script src="assets/js/jquery-3.7.1.min.js" type="text/javascript"></script>
     <script src="assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
     <script src="assets/js/feather.min.js" type="text/javascript"></script>
@@ -1564,5 +1589,8 @@
     <script src="assets/js/feather.min.js" type="text/javascript"></script>
     <script src="assets/js/script.js" type="text/javascript"></script>
     <div class="sidebar-overlay"></div>
+
+    <script type="module" src="js/main/main.js"></script>
+
   </body>
 </html>
