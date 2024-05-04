@@ -147,6 +147,18 @@ class Model {
       // });
       this.onDataChanged()
     }
+    updateRegisteredCourse(username, course_id) {
+      return new Promise((resolve, reject) => {
+        updateData("user/student/" + username, course_id)
+        // .then((data) => {
+        //   resolve(data);
+        // })
+        // .catch((error) => {
+        //   reject(error);
+        // });
+    });
+    }
+
     
     removeStudentData(username) {
       return new Promise((resolve, reject) => {
@@ -291,20 +303,42 @@ class View {
 
 
     }
-    loadRegisterNewCourse(data, handler) {
+    loadRegisterNewCourse(all_courses, registered_courses, handler) {
       var source = $("#template").html();
       var template = Handlebars.compile(source);
       
-      var context = data;
+      var context = all_courses;
       console.log(context)
 
-      const outputArray = context.map(([_, value]) => value);
-      console.log(outputArray[1].course_info);
+      
+      
 
+      // convert object to array
+      const outputArray = context.map(([_, value]) => value);
+      // console.log(outputArray[1].course_info);
+
+      // take only the course_info object, not the course_content object
       var finalArray = []
       for (var i = 0; i < outputArray.length; i++) {
         finalArray.push(outputArray[i].course_info)
       }
+
+      var registered_courses_ids = Object.keys(registered_courses.registered_course)
+      console.log(finalArray)
+      console.log(registered_courses)
+      console.log(registered_courses_ids)
+      for (var i = 0; i < finalArray.length; i++) {
+        if (registered_courses_ids.includes(finalArray[i]["course_id"])) {
+          finalArray[i]["type_color"] = "danger"
+          finalArray[i]["type_text"] = "Already registered for this course"
+        }
+        else {
+          finalArray[i]["type_color"] = "success"
+          finalArray[i]["type_text"] = "Register this course"
+        }
+      }
+
+
 
       var html = template({courses: finalArray});
       $("#target").html(html);
@@ -575,11 +609,14 @@ class Controller {
             else if (filename == "register-new-course.html") {
               if (login_type == "student") {
                 
-                this.model.getCourseData("").then((data) => {
-                  var all_courses = Object.entries(data)
+                this.model.getCourseData("").then((data_all) => {
+                  var all_courses = Object.entries(data_all)
                   // console.log(all_courses.values())
                   // var all_courses = data.map((course) => course.course_info )
-                  this.view.loadRegisterNewCourse(all_courses, this.handleRegisterNewCourse)
+
+                  registered_courses = data
+                  // console.log(registered_courses)
+                  this.view.loadRegisterNewCourse(all_courses, registered_courses, this.handleRegisterNewCourse)
                   
                 })
             }
@@ -623,20 +660,41 @@ class Controller {
 
         
     }
-    handleRegisterNewCourse = () => {
+    handleRegisterNewCourse = (course_id) => {
       //pull all course data from the database
-      var model = new Model()
-      model.getCourseData()
+      // var model = new Model()
+      // model.getCourseData()
+      // .then((data) => {
+      //   console.log(data)
+      //   // var course_data = data
+      //   // var registered_courses = data.registered_course
+      //   // var course_IDs = Object.keys(registered_courses) 
+      //   // var course_INFOs = course_data.map((course) => course.course_info )
+      //   // // console.log(course_INFOs)
+      //   // this.view.loadStudentCourse(course_INFOs, this.handleStudentCourse);
+      // })
+      console.log("Course registered successfully! ", course_id)
+      //check if the course is already registered
+      this.model.getStudentData(user_name)
       .then((data) => {
-        console.log(data)
-        // var course_data = data
-        // var registered_courses = data.registered_course
-        // var course_IDs = Object.keys(registered_courses) 
-        // var course_INFOs = course_data.map((course) => course.course_info )
-        // // console.log(course_INFOs)
-        // this.view.loadStudentCourse(course_INFOs, this.handleStudentCourse);
+        var registered_courses = data.registered_course
+        if (course_id in registered_courses) {
+          alert("Course already registered!")
+        }
+        else {
+          
+          let dynamicKey = course_id;
+          let dynamicValue = "";
+
+          // Add a dynamic key-value pair to the object
+          registered_courses[dynamicKey] = dynamicValue;
+          console.log(registered_courses);
+          this.model.updateRegisteredCourse(user_name, {registered_course: registered_courses})
+          alert("Course registered successfully!")
+          window.location.href = "register-new-course.html"
+        }
       })
-      
+
 
     }
 
